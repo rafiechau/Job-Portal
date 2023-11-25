@@ -9,7 +9,7 @@ exports.postJob = async (req, res) => {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const { Company,  Judul, Deskripsi, Lokasi, TipePekerjaan, Gaji, TanggalPosting, TanggalPenutupan, Kategori } = req.body;
+        const { Company,  Judul, Deskripsi, Lokasi, TipePekerjaan, Gaji, Kategori } = req.body;
         const recruiterId = req.user.id; 
         console.log(Company)
         const newJob = await Job.create({
@@ -19,13 +19,10 @@ exports.postJob = async (req, res) => {
             Lokasi,
             TipePekerjaan,
             Gaji,
-            TanggalPosting,
-            TanggalPenutupan,
             Kategori,
             EmployerID: recruiterId
         });
 
-        // console.log(newJob)
         const cacheExists = await client.exists(process.env.REDIS_KEY);
         if (cacheExists) {
             await client.del(process.env.REDIS_KEY);

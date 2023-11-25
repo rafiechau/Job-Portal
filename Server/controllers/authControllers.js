@@ -70,11 +70,10 @@ exports.getAllUsers = async(req, res) => {
         }
 
         const users = await User.findAll({
-            // Anda bisa mengecualikan password dan informasi sensitif lainnya
             attributes: { exclude: ['password'] }
         });
 
-        res.status(200).json(users);
+        res.status(200).json({message: "success", users});
     }catch(error){
         res.status(500).json({ message: 'Internal server error: ' + error });
     }
